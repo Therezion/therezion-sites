@@ -20,12 +20,20 @@ import {
   Smartphone,
   Gauge,
   LifeBuoy,
+  Clock,
+  CreditCard,
+  Award,
+  Instagram,
+  FileText,
+  CheckCircle2,
+  Zap,
 } from "lucide-react";
 
 import heroGlow from "../assets/hero-glow.jpg";
 import portfolio1 from "../assets/portfolio-1.jpg";
 import portfolio2 from "../assets/portfolio-2.jpg";
 import portfolio3 from "../assets/portfolio-3.jpg";
+import logoTz from "../assets/logo-tz.png";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -33,7 +41,11 @@ export const Route = createFileRoute("/")({
 
 const WHATSAPP =
   "https://wa.me/5544991435266?text=" +
-  encodeURIComponent("Olá! Gostaria de solicitar um modelo de site para minha empresa.");
+  encodeURIComponent(
+    "Olá! Gostaria de agendar uma conversa e solicitar um modelo de site para minha empresa com a Therezion."
+  );
+
+const INSTAGRAM = "https://instagram.com/therezion.sites";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -76,10 +88,10 @@ function Section({
             {eyebrow && (
               <span
                 className={
-                  "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium uppercase tracking-widest " +
+                  "inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-semibold uppercase tracking-widest " +
                   (dark
-                    ? "border-white/15 text-white/70"
-                    : "border-border text-muted-foreground")
+                    ? "border-white/15 bg-white/5 text-white/80"
+                    : "border-border bg-card text-muted-foreground")
                 }
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" />
@@ -87,7 +99,7 @@ function Section({
               </span>
             )}
             {title && (
-              <h2 className="mt-5 text-3xl font-semibold leading-[1.1] sm:text-4xl md:text-5xl">
+              <h2 className="mt-5 text-3xl font-bold leading-[1.15] sm:text-4xl md:text-5xl">
                 {title}
               </h2>
             )}
@@ -95,7 +107,7 @@ function Section({
               <p
                 className={
                   "mt-5 text-base leading-relaxed sm:text-lg " +
-                  (dark ? "text-white/65" : "text-muted-foreground")
+                  (dark ? "text-white/70" : "text-muted-foreground")
                 }
               >
                 {intro}
@@ -121,14 +133,14 @@ function CTAButton({
   className?: string;
 }) {
   const base =
-    "group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-all duration-200 will-change-transform";
+    "group inline-flex items-center justify-center gap-2.5 rounded-full px-7 py-4 text-sm font-semibold transition-all duration-300 will-change-transform";
   const styles = {
     primary:
-      "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_10px_30px_-10px_oklch(0.68_0.19_42/0.55)] hover:-translate-y-0.5",
+      "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_10px_30px_-10px_oklch(0.68_0.19_42/0.65)] hover:-translate-y-0.5 active:translate-y-0",
     secondary:
-      "border border-foreground/15 text-foreground hover:border-foreground/40 hover:bg-foreground/[0.03]",
+      "border border-foreground/15 bg-card text-foreground hover:border-primary/40 hover:bg-primary/[0.04] shadow-sm hover:-translate-y-0.5",
     ghost:
-      "border border-white/20 text-white hover:border-white/60 hover:bg-white/5",
+      "border border-white/20 bg-white/[0.05] text-white hover:border-white/60 hover:bg-white/10 hover:-translate-y-0.5",
   }[variant];
   return (
     <a
@@ -147,13 +159,14 @@ function Home() {
   const prefersReduced = useReducedMotion();
 
   return (
-    <main className="relative overflow-x-hidden bg-background">
+    <main className="relative overflow-x-hidden bg-background selection:bg-primary/20 selection:text-primary">
       <Header />
       <Hero prefersReduced={!!prefersReduced} />
       <Benefits />
       <Portfolio />
       <Process />
       <Comparison />
+      <GuaranteeSection />
       <Included />
       <FAQ />
       <FinalCTA />
@@ -167,30 +180,62 @@ function Home() {
 
 function Header() {
   return (
-    <header className="absolute inset-x-0 top-0 z-30">
-      <div className="container-page flex h-20 items-center justify-between">
-        <a href="#top" className="flex items-center gap-2">
-          <div className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground">
-            <span className="font-display text-sm font-bold">T</span>
+    <header className="absolute inset-x-0 top-0 z-30 border-b border-white/10 bg-[var(--ink)]/80 backdrop-blur-md">
+      <div className="container-page flex h-20 items-center justify-between gap-4">
+        <a href="#top" className="flex items-center gap-3 transition-opacity hover:opacity-90">
+          <div className="h-10 w-10 overflow-hidden rounded-xl bg-white/5 p-1 ring-1 ring-white/15">
+            <img src={logoTz} alt="Therezion Logo" className="h-full w-full object-contain" />
           </div>
-          <span className="font-display text-lg font-semibold tracking-tight text-white">
-            Therezion
-          </span>
+          <div className="flex flex-col">
+            <span className="font-display text-lg font-bold tracking-tight text-white">
+              Therezion
+            </span>
+            <span className="text-[10px] font-medium tracking-wider text-primary uppercase">
+              Maximum Credibility
+            </span>
+          </div>
         </a>
-        <nav className="hidden items-center gap-8 text-sm text-white/70 md:flex">
-          <a href="#beneficios" className="hover:text-white">Benefícios</a>
-          <a href="#portfolio" className="hover:text-white">Portfólio</a>
-          <a href="#processo" className="hover:text-white">Processo</a>
-          <a href="#faq" className="hover:text-white">FAQ</a>
+
+        <nav className="hidden items-center gap-7 text-sm font-medium text-white/75 lg:flex">
+          <a href="#beneficios" className="transition-colors hover:text-primary">
+            Benefícios
+          </a>
+          <a href="#portfolio" className="transition-colors hover:text-primary">
+            Portfólio
+          </a>
+          <a href="#processo" className="transition-colors hover:text-primary">
+            Processo
+          </a>
+          <a href="#comparativo" className="transition-colors hover:text-primary">
+            Comparativo
+          </a>
+          <a href="#garantia" className="transition-colors hover:text-primary">
+            Garantia
+          </a>
+          <a href="#faq" className="transition-colors hover:text-primary">
+            FAQ
+          </a>
         </nav>
-        <a
-          href={WHATSAPP}
-          target="_blank"
-          rel="noreferrer"
-          className="hidden rounded-full bg-white/10 px-4 py-2 text-sm text-white backdrop-blur hover:bg-white/20 md:inline-flex"
-        >
-          Fale conosco
-        </a>
+
+        <div className="flex items-center gap-3">
+          <div className="hidden flex-col items-end text-right sm:flex">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
+              Atendimento Online
+            </span>
+            <span className="text-[11px] text-white/50">Seg a Seg • 08h às 18h</span>
+          </div>
+
+          <a
+            href={WHATSAPP}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-primary/90 px-4 py-2.5 text-xs font-semibold text-white shadow-md transition-all hover:bg-primary sm:text-sm"
+          >
+            <MessageCircle className="h-4 w-4" />
+            <span>Agendar Reunião</span>
+          </a>
+        </div>
       </div>
     </header>
   );
@@ -202,9 +247,9 @@ function Hero({ prefersReduced }: { prefersReduced: boolean }) {
   return (
     <section
       id="top"
-      className="relative isolate min-h-[760px] overflow-hidden bg-[var(--ink)] pt-32 pb-24 text-white sm:min-h-[880px]"
+      className="relative isolate min-h-[780px] overflow-hidden bg-[var(--ink)] pt-32 pb-24 text-white sm:min-h-[900px] lg:pt-36"
     >
-      {/* Background glow image */}
+      {/* Background glow image & textures */}
       <div className="absolute inset-0 -z-10">
         <img
           src={heroGlow}
@@ -212,11 +257,11 @@ function Hero({ prefersReduced }: { prefersReduced: boolean }) {
           aria-hidden
           width={1600}
           height={1200}
-          className="h-full w-full object-cover opacity-70"
+          className="h-full w-full object-cover opacity-60"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/70 via-[var(--ink)]/40 to-[var(--ink)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--ink)]/80 via-[var(--ink)]/50 to-[var(--ink)]" />
         <div
-          className="absolute -left-40 top-1/4 h-[520px] w-[520px] rounded-full opacity-30 blur-3xl"
+          className="absolute left-1/2 top-1/3 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-25 blur-3xl"
           style={{ background: "radial-gradient(circle, oklch(0.68 0.19 42), transparent 70%)" }}
         />
       </div>
@@ -228,39 +273,77 @@ function Hero({ prefersReduced }: { prefersReduced: boolean }) {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="mx-auto max-w-4xl text-center"
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-white/80 backdrop-blur">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white/90 backdrop-blur-md">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
-            Mais resultado. Menos burocracia.
-          </span>
+            <span>Autoridade • Confiança • Resultados</span>
+          </div>
 
-          <h1 className="mt-6 text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="mt-7 font-display text-4xl font-bold leading-[1.08] sm:text-5xl md:text-6xl lg:text-7xl">
             Sua empresa merece um site que{" "}
-            <span className="text-gradient-orange">transmite autoridade.</span>
+            <span className="text-gradient-orange">transmite máxima credibilidade.</span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg">
-            Sites profissionais entregues entre 3 e 7 dias para empresas que
-            querem crescer com credibilidade.
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg md:text-xl">
+            Desenvolvemos sites profissionais e estratégicos com foco em conversão no WhatsApp.
+            Sem burocracia, sem agências tradicionais e com entrega rápida entre{" "}
+            <strong className="font-semibold text-white">3 e 7 dias úteis</strong>.
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <CTAButton>Solicitar um modelo para minha empresa</CTAButton>
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <CTAButton>
+              <MessageCircle className="h-5 w-5" />
+              Agendar Reunião no WhatsApp
+            </CTAButton>
             <CTAButton href="#portfolio" variant="ghost">
-              Ver Portfólio
+              Ver Projetos Prontos
             </CTAButton>
           </div>
 
-          <div className="mt-14 grid grid-cols-3 gap-4 border-t border-white/10 pt-8 text-left sm:gap-8">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-medium text-white/60 sm:text-sm">
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="h-4 w-4 text-primary" />
+              Não vende diretamente: foco em conversão no WhatsApp
+            </span>
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="h-4 w-4 text-primary" />
+              Atendimento Seg a Seg das 08h às 18h
+            </span>
+          </div>
+
+          {/* Grid de Diferenciais / Garantias da oferta */}
+          <div className="mt-14 grid grid-cols-2 gap-4 rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-md sm:grid-cols-4 sm:gap-6 sm:p-8">
             {[
-              { k: "3–7", v: "dias de entrega" },
-              { k: "100%", v: "personalizado" },
-              { k: "15", v: "dias de suporte" },
-            ].map((s) => (
-              <div key={s.v}>
-                <div className="font-display text-2xl font-semibold text-white sm:text-3xl">
-                  {s.k}
+              {
+                icon: Clock,
+                title: "3 a 7 Dias Úteis",
+                desc: "Entrega super rápida garantida em contrato",
+              },
+              {
+                icon: CreditCard,
+                title: "50% / 50%",
+                desc: "Metade para iniciar, metade na entrega e aprovação",
+              },
+              {
+                icon: Layers,
+                title: "1 Rodada Grátis",
+                desc: "Ajustes de layout até sua aprovação completa",
+              },
+              {
+                icon: Award,
+                title: "Garantia Total",
+                desc: "7 dias de garantia + 15 dias de acompanhamento",
+              },
+            ].map((box) => (
+              <div key={box.title} className="flex flex-col items-center text-center">
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary ring-1 ring-primary/30">
+                  <box.icon className="h-5 w-5" />
                 </div>
-                <div className="mt-1 text-xs text-white/55 sm:text-sm">{s.v}</div>
+                <div className="mt-3 font-display text-base font-bold text-white sm:text-lg">
+                  {box.title}
+                </div>
+                <div className="mt-1 text-xs leading-snug text-white/60 sm:text-sm">
+                  {box.desc}
+                </div>
               </div>
             ))}
           </div>
@@ -276,47 +359,49 @@ function Benefits() {
   const items = [
     {
       icon: ShieldCheck,
-      title: "Credibilidade instantânea",
-      text: "Um site profissional posiciona sua marca acima da concorrência e transmite confiança já no primeiro contato.",
+      title: "Autoridade que gera confiança",
+      text: "Um site com acabamento premium posiciona seu negócio acima da concorrência e elimina a desconfiança do cliente logo no primeiro olhar.",
     },
     {
       icon: Search,
       title: "Encontrado no Google",
-      text: "SEO básico configurado desde o primeiro dia para você aparecer quando clientes procurarem seus serviços.",
-    },
-    {
-      icon: Smartphone,
-      title: "Perfeito no celular",
-      text: "Design responsivo pensado para mobile, onde a maioria dos seus clientes vai te encontrar.",
+      text: "Estrutura semântica e SEO básico configurados perfeitamente para que sua empresa apareça no Google quando o cliente pesquisar pelo seu serviço.",
     },
     {
       icon: Rocket,
-      title: "Captação sem esforço",
-      text: "Um canal profissional 24/7 que apresenta seu trabalho e leva o cliente direto ao WhatsApp.",
+      title: "Focado no WhatsApp",
+      text: "O site não tenta vender direto de forma fria: ele é estrategicamente desenhado para conduzir o visitante até o WhatsApp para agendar uma reunião.",
     },
     {
-      icon: Gauge,
-      title: "Rápido e leve",
-      text: "Sites otimizados que carregam em segundos — porque velocidade também é imagem profissional.",
+      icon: Smartphone,
+      title: "Perfeito no Celular",
+      text: "Design 100% responsivo e mobile-first. Seu site abre rápido, com botões acessíveis e navegação intuitiva em qualquer tamanho de tela.",
+    },
+    {
+      icon: Zap,
+      title: "Rápido, Fácil e Sem Burocracia",
+      text: "Esqueça formulários longos, contratos complexos ou reuniões cansativas. Alinhamos tudo direto ao ponto, com clareza e agilidade.",
     },
     {
       icon: LifeBuoy,
-      title: "Suporte próximo",
-      text: "Você fala direto com quem faz. Sem burocracia, sem atendente, sem intermediários.",
+      title: "Suporte Direto e Próximo",
+      text: "Aqui você não é atendido por robôs ou intermediários. Você fala diretamente com quem desenvolve, com suporte técnico por 15 dias.",
     },
   ];
+
   return (
     <Section
       id="beneficios"
-      eyebrow="Por que um site"
+      eyebrow="Benefícios Exclusivos"
       title={
         <>
-          Por que sua empresa <span className="text-gradient-orange">precisa de um site?</span>
+          Por que sua empresa precisa de um site com{" "}
+          <span className="text-gradient-orange">máxima autoridade?</span>
         </>
       }
-      intro="Um site profissional é o ativo digital mais importante do seu negócio. Ele trabalha por você mesmo quando você não está."
+      intro="Seu site é a vitrine oficial da sua marca 24 horas por dia. Se ele parecer amador, você perde negócios de alto valor todos os dias."
     >
-      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {items.map((it, i) => (
           <motion.article
             key={it.title}
@@ -325,15 +410,15 @@ function Benefits() {
             viewport={{ once: true, margin: "-60px" }}
             variants={fadeUp}
             transition={{ duration: 0.4, delay: i * 0.05 }}
-            className="group rounded-[20px] border border-border bg-card p-7 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30"
+            className="group rounded-3xl border border-border bg-card p-8 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-lg"
           >
-            <div className="grid h-11 w-11 place-items-center rounded-xl border border-primary/25 bg-primary/[0.06] text-primary">
-              <it.icon className="h-5 w-5" strokeWidth={1.6} />
+            <div className="grid h-12 w-12 place-items-center rounded-2xl border border-primary/25 bg-primary/[0.08] text-primary transition-transform duration-300 group-hover:scale-110">
+              <it.icon className="h-6 w-6" strokeWidth={1.8} />
             </div>
-            <h3 className="mt-5 text-lg font-semibold text-foreground">
+            <h3 className="mt-6 font-display text-xl font-bold text-foreground">
               {it.title}
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               {it.text}
             </p>
           </motion.article>
@@ -347,19 +432,42 @@ function Benefits() {
 
 function Portfolio() {
   const projects = [
-    { img: portfolio1, title: "Consultoria empresarial", tag: "Site institucional", w: 1200, h: 900 },
-    { img: portfolio2, title: "Restaurante artesanal", tag: "Landing page", w: 1200, h: 900 },
-    { img: portfolio3, title: "Estúdio de arquitetura", tag: "Portfólio", w: 1200, h: 900 },
+    {
+      img: portfolio1,
+      title: "Consultoria & Gestão Empresarial",
+      tag: "Site Institucional de Alta Autoridade",
+      w: 1200,
+      h: 900,
+    },
+    {
+      img: portfolio2,
+      title: "Gastronomia & Experiência Premium",
+      tag: "Landing Page com Conversão no WhatsApp",
+      w: 1200,
+      h: 900,
+    },
+    {
+      img: portfolio3,
+      title: "Estúdio de Arquitetura & Design",
+      tag: "Portfólio Interativo Minimalista",
+      w: 1200,
+      h: 900,
+    },
   ];
+
   return (
     <Section
       id="portfolio"
-      eyebrow="Portfólio"
-      title={<>Projetos que <span className="text-gradient-orange">falam por si.</span></>}
-      intro="Cada site é único, pensado para a identidade e o público do cliente. Zero template genérico."
+      eyebrow="Portfólio Real"
+      title={
+        <>
+          Projetos que transmitem <span className="text-gradient-orange">credibilidade imediata.</span>
+        </>
+      }
+      intro="Desenvolvemos sites visuais, elegantes e funcionais. Sem excesso de cores ou animações pesadas, mantendo o foco absoluto no que importa: valorizar sua marca."
       dark
     >
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-3">
         {projects.map((p, i) => (
           <motion.figure
             key={p.title}
@@ -368,36 +476,41 @@ function Portfolio() {
             viewport={{ once: true, margin: "-60px" }}
             variants={fadeUp}
             transition={{ duration: 0.5, delay: i * 0.08 }}
-            className="group overflow-hidden rounded-[20px] border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
+            className="group overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/50"
           >
-            <div className="aspect-[4/3] overflow-hidden">
+            <div className="aspect-[4/3] overflow-hidden bg-white/5">
               <img
                 src={p.img}
                 alt={p.title}
                 loading="lazy"
                 width={p.w}
                 height={p.h}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </div>
-            <figcaption className="flex items-center justify-between p-6">
+            <figcaption className="flex items-center justify-between p-7">
               <div>
-                <div className="font-display text-base font-semibold text-white">
+                <div className="font-display text-lg font-bold text-white">
                   {p.title}
                 </div>
-                <div className="mt-1 text-xs uppercase tracking-widest text-white/50">
+                <div className="mt-1 text-xs font-medium uppercase tracking-widest text-primary">
                   {p.tag}
                 </div>
               </div>
-              <span className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/60 transition-colors group-hover:border-primary group-hover:text-primary">
-                <ArrowRight className="h-4 w-4" />
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-white/70 transition-colors group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
+                <ArrowRight className="h-5 w-5" />
               </span>
             </figcaption>
           </motion.figure>
         ))}
       </div>
-      <div className="mt-14 flex justify-center">
-        <CTAButton>Quero um site como esses</CTAButton>
+      <div className="mt-14 flex flex-col items-center justify-center gap-4 text-center">
+        <CTAButton>
+          Quero um site com esse nível de acabamento
+        </CTAButton>
+        <span className="text-xs text-white/50">
+          Apresentamos uma proposta personalizada pelo WhatsApp sem compromisso.
+        </span>
       </div>
     </Section>
   );
@@ -409,35 +522,56 @@ function Process() {
   const steps = [
     {
       icon: MessageCircle,
-      title: "Conversa inicial",
-      text: "Entendemos seu negócio, objetivos e público pelo WhatsApp. Sem formulário longo.",
+      title: "1. Briefing Direto no WhatsApp",
+      text: "Conversamos pelo WhatsApp para entender o seu negócio, os seus diferenciais e o objetivo exato da sua marca. Zero formulário cansativo.",
+    },
+    {
+      icon: FileText,
+      title: "2. Planejamento Estratégico",
+      text: "Estruturamos as seções ideais, os argumentos e a rota do visitante para que toda a navegação conduza naturalmente para uma reunião com você.",
     },
     {
       icon: Palette,
-      title: "Design personalizado",
-      text: "Criamos um modelo exclusivo com a identidade da sua marca e enviamos para aprovação.",
+      title: "3. Desenvolvimento Sob Medida",
+      text: "Criamos um design exclusivo com a identidade visual da sua empresa. Codificação moderna, leve, limpa e com SEO ativado para o Google.",
     },
     {
       icon: Code2,
-      title: "Desenvolvimento",
-      text: "Codificamos com foco em velocidade, SEO e responsividade em todos os dispositivos.",
+      title: "4. Revisão e Apresentação",
+      text: "Disponibilizamos um link privado do seu site real em funcionamento no ar para você testar no celular e computador com toda tranquilidade.",
     },
     {
-      icon: Send,
-      title: "Publicação",
-      text: "Colocamos seu site no ar entre 3 e 7 dias. Publicação e ajustes finais inclusos.",
+      icon: Layers,
+      title: "5. Aprovação + 1 Rodada de Ajustes Gratuita",
+      text: "Você analisa cada detalhe e tem direito a 1 rodada de ajustes sem custo nenhum para deixarmos textos, cores e imagens exatamente do seu jeito.",
+    },
+    {
+      icon: Globe,
+      title: "6. Publicação no Domínio Próprio",
+      text: "Aprovado? Nós fazemos toda a configuração técnica e colocamos o site no ar no seu domínio (.com ou .com.br) com certificado de segurança SSL.",
+    },
+    {
+      icon: ShieldCheck,
+      title: "7. Entrega Garantida & Suporte",
+      text: "Entrega formalizada com garantia incondicional de 7 dias e 15 dias de acompanhamento próximo para tirar qualquer dúvida.",
     },
   ];
+
   return (
     <Section
       id="processo"
-      eyebrow="Como funciona"
-      title={<>Do briefing ao ar em <span className="text-gradient-orange">4 passos.</span></>}
-      intro="Processo simples e direto. Você acompanha cada etapa e fala diretamente com quem está desenvolvendo."
+      eyebrow="Transparência Total"
+      title={
+        <>
+          O processo Therezion: rápido, seguro e{" "}
+          <span className="text-gradient-orange">sem burocracia.</span>
+        </>
+      }
+      intro="Você acompanha cada passo e fala diretamente com quem está desenvolvendo. Nosso prazo de entrega é de apenas 3 a 7 dias úteis."
     >
-      <div className="relative">
-        <div className="absolute left-6 top-6 bottom-6 hidden w-px bg-gradient-to-b from-primary/40 via-border to-border md:left-1/2 md:block" />
-        <ol className="space-y-4 md:space-y-6">
+      <div className="relative mx-auto max-w-4xl">
+        <div className="absolute left-7 top-8 bottom-8 hidden w-0.5 bg-gradient-to-b from-primary via-border to-border md:block" />
+        <ol className="space-y-6">
           {steps.map((s, i) => (
             <motion.li
               key={s.title}
@@ -445,36 +579,36 @@ function Process() {
               whileInView="visible"
               viewport={{ once: true, margin: "-60px" }}
               variants={fadeUp}
-              transition={{ duration: 0.4, delay: i * 0.06 }}
-              className="grid gap-4 rounded-[20px] border border-border bg-card p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 md:grid-cols-[80px_1fr] md:items-center md:p-7"
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              className="grid gap-5 rounded-3xl border border-border bg-card p-7 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 md:grid-cols-[60px_1fr] md:items-start md:p-8"
             >
-              <div className="flex items-center gap-4 md:flex-col md:items-start">
-                <span className="font-display text-3xl font-semibold text-primary md:text-4xl">
-                  0{i + 1}
+              <div className="flex items-center gap-3 md:flex-col md:items-center">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-primary/30 bg-primary/[0.08] text-primary">
+                  <s.icon className="h-6 w-6" strokeWidth={1.8} />
                 </span>
-                <span className="grid h-11 w-11 place-items-center rounded-xl border border-primary/25 bg-primary/[0.06] text-primary md:hidden">
-                  <s.icon className="h-5 w-5" strokeWidth={1.6} />
+                <span className="font-display text-lg font-bold text-primary md:hidden">
+                  Passo 0{i + 1}
                 </span>
               </div>
-              <div className="flex items-start gap-5">
-                <span className="hidden h-12 w-12 place-items-center rounded-xl border border-primary/25 bg-primary/[0.06] text-primary md:grid">
-                  <s.icon className="h-5 w-5" strokeWidth={1.6} />
-                </span>
-                <div>
-                  <h3 className="font-display text-lg font-semibold text-foreground">
+              <div>
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="font-display text-xl font-bold text-foreground">
                     {s.title}
                   </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                    {s.text}
-                  </p>
+                  <span className="hidden rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary md:inline-block">
+                    Etapa 0{i + 1}
+                  </span>
                 </div>
+                <p className="mt-2.5 text-base leading-relaxed text-muted-foreground">
+                  {s.text}
+                </p>
               </div>
             </motion.li>
           ))}
         </ol>
       </div>
       <div className="mt-14 flex justify-center">
-        <CTAButton>Começar meu projeto</CTAButton>
+        <CTAButton>Iniciar o Passo 1 no WhatsApp</CTAButton>
       </div>
     </Section>
   );
@@ -484,47 +618,55 @@ function Process() {
 
 function Comparison() {
   const rows = [
-    ["Prazo de entrega", "3 a 7 dias", "30 a 90 dias"],
-    ["Contato direto", "Com quem desenvolve", "Vários intermediários"],
-    ["Personalização", "Total, sem templates", "Templates repetidos"],
-    ["Burocracia", "Zero", "Contratos longos"],
-    ["Investimento", "Acessível", "Alto"],
-    ["Publicação", "Inclusa", "Custo extra"],
+    ["Prazo de entrega", "3 a 7 dias úteis", "30 a 90 dias com atrasos"],
+    ["Forma de pagamento", "50% no início + 50% na entrega", "100% adiantado ou contratos presos"],
+    ["Contato e suporte", "Direto no WhatsApp com quem cria", "Atendentes, chamados e demora"],
+    ["Personalização", "100% sob medida para sua marca", "Templates repetidos e genéricos"],
+    ["Burocracia", "Zero! Rápido, fácil e seguro", "Reuniões intermináveis sem foco"],
+    ["Ajustes na entrega", "1 rodada completa grátis", "Cobrança extra por cada alteração"],
+    ["Publicação e SSL", "Inclusa sem taxas ocultas", "Taxas de setup adicionais"],
+    ["Garantia de risco", "7 dias + 15 dias de acompanhamento", "Nenhuma garantia clara após o ar"],
   ];
+
   return (
     <Section
-      eyebrow="Comparativo"
-      title={<>Therezion × <span className="text-gradient-orange">Agência tradicional</span></>}
-      intro="Mesma qualidade profissional, sem os problemas comuns do mercado."
+      id="comparativo"
+      eyebrow="O Diferencial"
+      title={
+        <>
+          Why Therezion × <span className="text-gradient-orange">Agência Tradicional</span>
+        </>
+      }
+      intro="A mesma qualidade estética e técnica de grandes agências, mas com agilidade, transparência e investimento inteligente."
     >
-      <div className="overflow-hidden rounded-[20px] border border-border bg-card shadow-[var(--shadow-card)]">
-        <div className="grid grid-cols-[1.2fr_1fr_1fr] border-b border-border bg-[var(--surface)] text-sm font-medium">
-          <div className="p-5 text-muted-foreground">Critério</div>
-          <div className="flex items-center gap-2 border-l border-border p-5 text-foreground">
-            <div className="grid h-6 w-6 place-items-center rounded-md bg-primary text-primary-foreground">
-              <span className="font-display text-[10px] font-bold">T</span>
+      <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-card)]">
+        <div className="grid grid-cols-[1.2fr_1fr_1fr] border-b border-border bg-[var(--surface)] text-sm font-semibold">
+          <div className="p-6 text-muted-foreground">O que comparar</div>
+          <div className="flex items-center gap-2.5 border-l border-border bg-primary/5 p-6 text-foreground">
+            <div className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-primary text-primary-foreground">
+              <span className="font-display text-xs font-bold">T</span>
             </div>
-            Therezion
+            <span className="font-bold text-primary">Therezion</span>
           </div>
-          <div className="border-l border-border p-5 text-muted-foreground">
-            Agência tradicional
+          <div className="border-l border-border p-6 text-muted-foreground">
+            Agência Tradicional / Freelancer
           </div>
         </div>
         {rows.map((row, i) => (
           <div
             key={row[0]}
             className={
-              "grid grid-cols-[1.2fr_1fr_1fr] text-sm " +
-              (i % 2 === 0 ? "bg-background" : "bg-[var(--surface)]/40")
+              "grid grid-cols-[1.2fr_1fr_1fr] text-sm md:text-base " +
+              (i % 2 === 0 ? "bg-background" : "bg-[var(--surface)]/50")
             }
           >
-            <div className="p-5 font-medium text-foreground">{row[0]}</div>
-            <div className="flex items-center gap-2 border-l border-border p-5 text-foreground">
-              <Check className="h-4 w-4 shrink-0 text-primary" strokeWidth={2.4} />
+            <div className="p-6 font-semibold text-foreground">{row[0]}</div>
+            <div className="flex items-center gap-3 border-l border-border bg-primary/[0.03] p-6 font-medium text-foreground">
+              <Check className="h-5 w-5 shrink-0 text-primary" strokeWidth={2.6} />
               <span>{row[1]}</span>
             </div>
-            <div className="flex items-center gap-2 border-l border-border p-5 text-muted-foreground">
-              <X className="h-4 w-4 shrink-0 text-muted-foreground/60" strokeWidth={2} />
+            <div className="flex items-center gap-3 border-l border-border p-6 text-muted-foreground">
+              <X className="h-5 w-5 shrink-0 text-destructive/70" strokeWidth={2.2} />
               <span>{row[2]}</span>
             </div>
           </div>
@@ -534,27 +676,101 @@ function Comparison() {
   );
 }
 
+/* ---------------- Guarantee Section (Especial) ---------------- */
+
+function GuaranteeSection() {
+  return (
+    <Section
+      id="garantia"
+      eyebrow="Garantia Incondicional"
+      title={
+        <>
+          Contratar a Therezion é <span className="text-gradient-orange">100% seguro.</span>
+        </>
+      }
+      intro="Nosso compromisso é com a sua autoridade e satisfação. Por isso, oferecemos condições blindadas para você avançar sem receio."
+      dark
+    >
+      <div className="mx-auto max-w-5xl rounded-3xl border border-primary/30 bg-gradient-to-b from-primary/15 via-white/[0.04] to-white/[0.02] p-8 md:p-12">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              icon: Clock,
+              title: "3 a 7 Dias Úteis",
+              desc: "Prazo firme. Seu novo site vai para o ar em tempo recorde sem perder o acabamento de luxo.",
+            },
+            {
+              icon: CreditCard,
+              title: "50% Inicial / 50% Final",
+              desc: "Você investe metade para começarmos e a outra metade só no final, após ver e aprovar o site.",
+            },
+            {
+              icon: Award,
+              title: "7 Dias de Garantia",
+              desc: "Se em até 7 dias da entrega você não estiver satisfeito com nosso serviço, protegemos seu investimento.",
+            },
+            {
+              icon: LifeBuoy,
+              title: "15 Dias de Suporte",
+              desc: "Após a publicação, você conta com 15 dias de acompanhamento próximo para qualquer ajuste no ar.",
+            },
+          ].map((item) => (
+            <div key={item.title} className="flex flex-col items-start">
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
+                <item.icon className="h-6 w-6" />
+              </div>
+              <h3 className="mt-5 font-display text-lg font-bold text-white">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-white/70">
+                {item.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-12 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-8 sm:flex-row">
+          <div className="flex items-center gap-3">
+            <ShieldCheck className="h-8 w-8 text-primary" />
+            <div className="text-sm">
+              <span className="block font-bold text-white">
+                Mais resultado. Menos burocracia.
+              </span>
+              <span className="text-white/60">
+                Atendimento de Segunda a Segunda, das 08h às 18h no WhatsApp.
+              </span>
+            </div>
+          </div>
+          <CTAButton>
+            Falar pelo WhatsApp Agora
+          </CTAButton>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
 /* ---------------- Included ---------------- */
 
 function Included() {
   const items = [
-    { icon: Palette, title: "Design personalizado", text: "Layout único, alinhado à sua marca." },
-    { icon: Smartphone, title: "100% responsivo", text: "Perfeito em celular, tablet e desktop." },
-    { icon: Search, title: "SEO básico", text: "Estrutura pronta para o Google encontrar." },
-    { icon: Globe, title: "Publicação inclusa", text: "Colocamos seu site no ar. Sem custo extra." },
-    { icon: MessageCircle, title: "WhatsApp integrado", text: "Botão flutuante que converte visitas em conversas." },
-    { icon: Layers, title: "1 rodada de ajustes", text: "Refinamos até você aprovar o resultado." },
-    { icon: ShieldCheck, title: "Entrega garantida", text: "Prazo de até 7 dias ou seu dinheiro de volta." },
-    { icon: LifeBuoy, title: "15 dias de acompanhamento", text: "Suporte pós-entrega para qualquer ajuste." },
+    { icon: Palette, title: "Design 100% Exclusivo", text: "Identidade visual desenhada para sua autoridade." },
+    { icon: Smartphone, title: "Totalmente Responsivo", text: "Perfeito em qualquer celular, tablet ou desktop." },
+    { icon: Search, title: "SEO no Google ativado", text: "Estrutura pronta para ser encontrada por novos clientes." },
+    { icon: Globe, title: "Publicação no Domínio", text: "Configuração completa de DNS e SSL sem custo extra." },
+    { icon: MessageCircle, title: "Botão WhatsApp Flutuante", text: "Converte visitas diárias em reuniões reais." },
+    { icon: Layers, title: "1 Rodada de Ajustes Grátis", text: "Ajustamos textos e cores até sua aprovação." },
+    { icon: Award, title: "Garantia de 7 Dias", text: "Proteção total e transparência do início ao fim." },
+    { icon: LifeBuoy, title: "15 Dias de Acompanhamento", text: "Suporte próximo pós-entrega direto pelo WhatsApp." },
   ];
+
   return (
     <Section
-      eyebrow="O que está incluso"
-      title={<>Tudo que sua empresa precisa <span className="text-gradient-orange">no ar.</span></>}
-      intro="Um pacote completo, transparente e sem surpresas."
-      dark
+      eyebrow="Tudo Incluso"
+      title={<>O pacote completo para sua empresa <span className="text-gradient-orange">vender mais.</span></>}
+      intro="Sem surpresas, sem mensalidades abusivas e sem taxas escondidas. Você recebe tudo pronto e funcionando."
     >
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((it, i) => (
           <motion.div
             key={it.title}
@@ -563,13 +779,13 @@ function Included() {
             viewport={{ once: true, margin: "-60px" }}
             variants={fadeUp}
             transition={{ duration: 0.35, delay: i * 0.04 }}
-            className="rounded-[20px] border border-white/10 bg-white/[0.03] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
+            className="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
           >
-            <div className="grid h-10 w-10 place-items-center rounded-xl border border-primary/30 bg-primary/[0.08] text-primary">
-              <it.icon className="h-5 w-5" strokeWidth={1.6} />
+            <div className="grid h-11 w-11 place-items-center rounded-xl border border-primary/30 bg-primary/[0.08] text-primary">
+              <it.icon className="h-5 w-5" strokeWidth={1.8} />
             </div>
-            <h3 className="mt-4 text-base font-semibold text-white">{it.title}</h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-white/60">{it.text}</p>
+            <h3 className="mt-4 font-display text-base font-bold text-foreground">{it.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{it.text}</p>
           </motion.div>
         ))}
       </div>
@@ -582,53 +798,70 @@ function Included() {
 function FAQ() {
   const faqs = [
     {
-      q: "Quanto tempo leva para meu site ficar pronto?",
-      a: "Entre 3 e 7 dias corridos após a aprovação do modelo. Prazo garantido em contrato.",
+      q: "Quanto tempo leva para o site ficar pronto e publicado?",
+      a: "Nosso prazo garantido é de apenas 3 a 7 dias úteis após o alinhamento do briefing e confirmação do projeto. Enquanto agências tradicionais demoram meses, nós entregamos com velocidade máxima sem perder a qualidade premium.",
     },
     {
-      q: "Preciso já ter textos e imagens prontos?",
-      a: "Não. Orientamos você sobre o conteúdo ideal e podemos ajudar na estruturação dos textos.",
+      q: "Como funciona a forma de pagamento (50% / 50%)?",
+      a: "É simples, seguro e transparente: você investe 50% do valor para iniciarmos o desenvolvimento, e os outros 50% apenas na entrega do site, após você visualizar, revisar e aprovar o resultado final.",
     },
     {
-      q: "O site funciona no celular?",
-      a: "Sim. Todos os sites são desenvolvidos mobile-first e testados em diversos dispositivos.",
+      q: "O que acontece se eu quiser alterar algo depois de ver o modelo?",
+      a: "Você tem direito a 1 rodada de ajustes totalmente gratuita durante a fase de aprovação. Podemos ajustar textos, cores, imagens, layout ou posições de elementos até que fique exatamente como você imaginou.",
     },
     {
-      q: "Vocês publicam o site para mim?",
-      a: "Sim. Publicação em domínio próprio está inclusa no serviço, sem custo adicional.",
+      q: "Como funciona a garantia de 7 dias e o suporte de 15 dias?",
+      a: "Após a publicação do seu site, oferecemos garantia incondicional de 7 dias sobre os serviços entregues. Além disso, disponibilizamos 15 dias de acompanhamento técnico próximo e gratuito para tirar dúvidas ou fazer pequenos alinhamentos técnicos no ar.",
     },
     {
-      q: "Consigo alterar o site depois?",
-      a: "Sim. Oferecemos 1 rodada de ajustes na entrega e 15 dias de acompanhamento gratuito.",
+      q: "Eu preciso já ter textos, fotos e logotipo prontos para começar?",
+      a: "Não é obrigatório ter tudo pronto! Nosso time te ajuda a estruturar o conteúdo ideal e textos persuasivos durante a etapa de planejamento. Se precisar, utilizamos imagens profissionais de alta qualidade licenciadas para o seu segmento.",
     },
     {
-      q: "Como funciona o pagamento?",
-      a: "Investimento acessível, com condições flexíveis. Falamos os detalhes direto pelo WhatsApp.",
+      q: "O site vai aparecer no Google e funcionar perfeitamente no celular?",
+      a: "Sim! Desenvolvemos com foco 100% mobile-first (responsivo para celulares, tablets e computadores) e com toda a estrutura semântica de SEO básico ativada para que o Google indexe sua página rapidamente.",
+    },
+    {
+      q: "O site vende sozinho ou preciso atender no WhatsApp?",
+      a: "O objetivo estratégico do site não é tentar fechar uma venda fria sozinho, e sim gerar uma conversa qualificada no seu WhatsApp para você agendar uma reunião. Toda a navegação e os botões conduzem o visitante a clicar e falar com você.",
+    },
+    {
+      q: "Quais são os dias e horários de atendimento da Therezion?",
+      a: "Nosso atendimento funciona de Segunda a Segunda, das 08h às 18h. Você fala direto com quem desenvolve pelo WhatsApp ou pelo nosso Instagram @therezion.sites, sem intermediários ou burocracia.",
     },
   ];
+
   const [open, setOpen] = useState<number | null>(0);
+
   return (
     <Section
       id="faq"
-      eyebrow="FAQ"
-      title={<>Dúvidas <span className="text-gradient-orange">frequentes.</span></>}
-      intro="Se não encontrar sua resposta aqui, é só chamar no WhatsApp."
+      eyebrow="Dúvidas Frequentes"
+      title={<>Perguntas <span className="text-gradient-orange">frequentes.</span></>}
+      intro="Tudo o que você precisa saber antes de dar o próximo passo para o crescimento da sua empresa."
     >
       <div className="mx-auto max-w-3xl">
-        <div className="divide-y divide-border rounded-[20px] border border-border bg-card shadow-[var(--shadow-card)]">
+        <div className="divide-y divide-border rounded-3xl border border-border bg-card shadow-[var(--shadow-card)]">
           {faqs.map((f, i) => {
             const isOpen = open === i;
             return (
               <div key={f.q}>
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 p-6 text-left transition-colors hover:bg-[var(--surface)]/60"
+                  className="flex w-full items-center justify-between gap-4 p-6 text-left transition-colors hover:bg-[var(--surface)]/70 md:p-7"
                   aria-expanded={isOpen}
                 >
-                  <span className="font-display text-base font-semibold text-foreground sm:text-lg">
+                  <span className="font-display text-base font-bold text-foreground sm:text-lg">
                     {f.q}
                   </span>
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-colors group-hover:border-primary">
+                  <span
+                    className={
+                      "grid h-8 w-8 shrink-0 place-items-center rounded-full border transition-colors " +
+                      (isOpen
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border text-muted-foreground hover:border-primary")
+                    }
+                  >
                     {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
                   </span>
                 </button>
@@ -641,7 +874,7 @@ function FAQ() {
                   transition={{ duration: 0.25, ease: "easeInOut" }}
                   className="overflow-hidden"
                 >
-                  <p className="px-6 pb-6 text-sm leading-relaxed text-muted-foreground">
+                  <p className="px-6 pb-7 text-sm leading-relaxed text-muted-foreground md:px-7 md:text-base">
                     {f.a}
                   </p>
                 </motion.div>
@@ -649,8 +882,9 @@ function FAQ() {
             );
           })}
         </div>
-        <div className="mt-10 flex justify-center">
-          <CTAButton>Tirar uma dúvida</CTAButton>
+        <div className="mt-10 flex flex-col items-center justify-center gap-3 text-center sm:flex-row">
+          <span className="text-sm text-muted-foreground">Ainda tem alguma dúvida?</span>
+          <CTAButton>Tirar dúvida direto no WhatsApp</CTAButton>
         </div>
       </div>
     </Section>
@@ -663,10 +897,10 @@ function FinalCTA() {
   return (
     <section className="section-y relative isolate overflow-hidden bg-[var(--ink)] text-white">
       <div
-        className="absolute inset-0 -z-10 opacity-60"
+        className="absolute inset-0 -z-10 opacity-70"
         style={{
           background:
-            "radial-gradient(600px circle at 30% 40%, oklch(0.68 0.19 42 / 0.35), transparent 60%), radial-gradient(500px circle at 80% 70%, oklch(0.78 0.16 55 / 0.2), transparent 60%)",
+            "radial-gradient(700px circle at 30% 40%, oklch(0.68 0.19 42 / 0.4), transparent 60%), radial-gradient(600px circle at 80% 70%, oklch(0.78 0.16 55 / 0.25), transparent 60%)",
         }}
       />
       <div className="container-page relative">
@@ -676,19 +910,42 @@ function FinalCTA() {
           viewport={{ once: true, margin: "-80px" }}
           variants={fadeUp}
           transition={{ duration: 0.6 }}
-          className="mx-auto max-w-3xl text-center"
+          className="mx-auto max-w-4xl text-center"
         >
-          <h2 className="text-3xl font-semibold leading-[1.1] sm:text-5xl md:text-6xl">
-            Pronto para colocar sua empresa{" "}
-            <span className="text-gradient-orange">no lugar certo?</span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary uppercase tracking-widest">
+            Pronto para crescer?
+          </span>
+
+          <h2 className="mt-6 font-display text-3xl font-bold leading-[1.1] sm:text-5xl md:text-6xl">
+            Sua marca transmitindo a autoridade que sempre{" "}
+            <span className="text-gradient-orange">mereceu ter.</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base text-white/65 sm:text-lg">
-            Fale conosco pelo WhatsApp e receba um modelo de site pensado para o
-            seu negócio.
+
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">
+            Fale conosco agora pelo WhatsApp, agende uma conversa sem compromisso e veja
+            como podemos colocar o seu novo site no ar em até 7 dias úteis.
           </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <CTAButton>Solicitar meu site</CTAButton>
-            <span className="text-sm text-white/50">Resposta em até 24 horas úteis</span>
+
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <CTAButton>
+              <MessageCircle className="h-5 w-5" />
+              Solicitar Modelo no WhatsApp
+            </CTAButton>
+            <a
+              href={INSTAGRAM}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:border-white/50 hover:bg-white/10"
+            >
+              <Instagram className="h-4 w-4 text-primary" />
+              Siga @therezion.sites
+            </a>
+          </div>
+
+          <div className="mt-10 flex flex-wrap justify-center gap-8 border-t border-white/10 pt-8 text-xs text-white/60 sm:text-sm">
+            <span>⚡ Entrega em 3 a 7 dias úteis</span>
+            <span>🤝 50% início / 50% na entrega</span>
+            <span>🛡️ Garantia de 7 dias + 15 dias suporte</span>
           </div>
         </motion.div>
       </div>
@@ -700,51 +957,84 @@ function FinalCTA() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-[var(--ink)] py-14 text-white/60">
+    <footer className="border-t border-white/10 bg-[var(--ink)] py-16 text-white/70">
       <div className="container-page">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1.2fr]">
           <div>
-            <div className="flex items-center gap-2">
-              <div className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground">
-                <span className="font-display text-sm font-bold">T</span>
+            <div className="flex items-center gap-3">
+              <div className="h-9 w-9 overflow-hidden rounded-xl bg-white/5 p-1 ring-1 ring-white/15">
+                <img src={logoTz} alt="Therezion Logo" className="h-full w-full object-contain" />
               </div>
-              <span className="font-display text-lg font-semibold tracking-tight text-white">
+              <span className="font-display text-xl font-bold tracking-tight text-white">
                 Therezion
               </span>
             </div>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed">
-              Sites profissionais para pequenas empresas e profissionais liberais
-              que querem crescer com credibilidade.
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/65">
+              Sites profissionais para empresas que querem transmitir autoridade, passar
+              mais confiança e agendar reuniões qualificadas no WhatsApp.
             </p>
-          </div>
-          <div>
-            <div className="text-xs font-medium uppercase tracking-widest text-white/40">
-              Navegação
+            <div className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white/[0.04] px-4 py-2 text-xs text-white/80 ring-1 ring-white/10">
+              <Clock className="h-4 w-4 text-primary" />
+              <span>
+                Atendimento: <strong className="text-white">Segunda a Segunda, 08h às 18h</strong>
+              </span>
             </div>
-            <ul className="mt-4 space-y-2 text-sm">
-              <li><a href="#beneficios" className="hover:text-white">Benefícios</a></li>
-              <li><a href="#portfolio" className="hover:text-white">Portfólio</a></li>
-              <li><a href="#processo" className="hover:text-white">Processo</a></li>
-              <li><a href="#faq" className="hover:text-white">FAQ</a></li>
+          </div>
+
+          <div>
+            <div className="font-display text-xs font-bold uppercase tracking-widest text-primary">
+              Navegação Rápida
+            </div>
+            <ul className="mt-4 space-y-2.5 text-sm font-medium">
+              <li><a href="#beneficios" className="transition-colors hover:text-white">Benefícios do Site</a></li>
+              <li><a href="#portfolio" className="transition-colors hover:text-white">Portfólio de Autoridade</a></li>
+              <li><a href="#processo" className="transition-colors hover:text-white">Processo em 7 Etapas</a></li>
+              <li><a href="#comparativo" className="transition-colors hover:text-white">Therezion × Agência</a></li>
+              <li><a href="#garantia" className="transition-colors hover:text-white">Garantia & Suporte</a></li>
+              <li><a href="#faq" className="transition-colors hover:text-white">Dúvidas Frequentes (FAQ)</a></li>
             </ul>
           </div>
+
           <div>
-            <div className="text-xs font-medium uppercase tracking-widest text-white/40">
-              Contato
+            <div className="font-display text-xs font-bold uppercase tracking-widest text-primary">
+              Canais de Atendimento
             </div>
-            <ul className="mt-4 space-y-2 text-sm">
+            <ul className="mt-4 space-y-3 text-sm">
               <li>
-                <a href={WHATSAPP} target="_blank" rel="noreferrer" className="hover:text-white">
-                  WhatsApp: +55 44 99143-5266
+                <a
+                  href={WHATSAPP}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2.5 rounded-xl bg-primary/10 px-4 py-2.5 font-medium text-white ring-1 ring-primary/30 transition-all hover:bg-primary hover:text-primary-foreground"
+                >
+                  <MessageCircle className="h-4 w-4 text-primary group-hover:text-white" />
+                  <span>WhatsApp: +55 44 99143-5266</span>
                 </a>
               </li>
-              <li>Atendimento online</li>
+              <li>
+                <a
+                  href={INSTAGRAM}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 text-white/80 transition-colors hover:text-primary"
+                >
+                  <Instagram className="h-4 w-4 text-primary" />
+                  <span>Instagram: @therezion.sites</span>
+                </a>
+              </li>
+              <li className="text-xs text-white/50 pt-1">
+                Fale direto com quem desenvolve. Zero burocracia.
+              </li>
             </ul>
           </div>
         </div>
-        <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/40 sm:flex-row sm:items-center">
+
+        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 text-xs text-white/45 sm:flex-row sm:items-center">
           <span>© {new Date().getFullYear()} Therezion. Todos os direitos reservados.</span>
-          <span>Mais resultado. Menos burocracia.</span>
+          <div className="flex items-center gap-6">
+            <span>Mais resultado. Menos burocracia.</span>
+            <span>Entrega em 3 a 7 dias úteis</span>
+          </div>
         </div>
       </div>
     </footer>
@@ -755,15 +1045,26 @@ function Footer() {
 
 function FloatingWhatsApp() {
   return (
-    <a
-      href={WHATSAPP}
-      target="_blank"
-      rel="noreferrer"
-      aria-label="Falar no WhatsApp"
-      className="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_15px_40px_-10px_oklch(0.68_0.19_42/0.7)] transition-transform duration-200 hover:-translate-y-1 sm:bottom-8 sm:right-8"
-    >
-      <MessageCircle className="h-6 w-6" strokeWidth={2} />
-      <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-primary/40" />
-    </a>
+    <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 sm:bottom-8 sm:right-8">
+      <a
+        href={WHATSAPP}
+        target="_blank"
+        rel="noreferrer"
+        className="hidden rounded-full bg-card/90 px-4 py-2 text-xs font-semibold text-foreground shadow-lg ring-1 ring-border backdrop-blur transition-transform hover:scale-105 sm:inline-flex sm:items-center sm:gap-2"
+      >
+        <span className="h-2 w-2 rounded-full bg-emerald-500" />
+        <span>Agendar reunião no WhatsApp</span>
+      </a>
+      <a
+        href={WHATSAPP}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Falar no WhatsApp"
+        className="relative grid h-14 w-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_15px_40px_-10px_oklch(0.68_0.19_42/0.8)] transition-all duration-300 hover:-translate-y-1 hover:scale-110 active:scale-95 sm:h-16 sm:w-16"
+      >
+        <MessageCircle className="h-7 w-7" strokeWidth={2.2} />
+        <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-primary/40" />
+      </a>
+    </div>
   );
 }

@@ -75,14 +75,16 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  name: "Therezion",
+  name: "Therezion — Sites Profissionais de Alta Autoridade",
   description:
-    "Desenvolvimento de sites profissionais para pequenas empresas e profissionais liberais. Entrega em 3 a 7 dias.",
+    "Desenvolvimento de sites profissionais para pequenas empresas e profissionais que buscam credibilidade. Entrega rápida de 3 a 7 dias úteis com garantia de 7 dias e 15 dias de acompanhamento.",
   areaServed: "Brasil",
   telephone: "+55 44 99143-5266",
-  url: "/",
+  url: "https://therezion.com.br",
   priceRange: "$$",
-  serviceType: "Desenvolvimento de sites profissionais",
+  openingHours: "Mo-Su 08:00-18:00",
+  sameAs: ["https://instagram.com/therezion.sites"],
+  serviceType: "Desenvolvimento de sites profissionais, landing pages e portfólios",
 };
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
@@ -90,36 +92,39 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Therezion — Sites profissionais para pequenas empresas" },
+      { title: "Therezion — Sites Profissionais com Máxima Credibilidade | 3 a 7 Dias" },
       {
         name: "description",
         content:
-          "Sites profissionais entregues entre 3 e 7 dias. Mais resultado, menos burocracia. Solicite um modelo pelo WhatsApp.",
+          "Sua empresa merece um site que transmite autoridade. Entrega em 3 a 7 dias úteis, 50% para iniciar e 50% na entrega, garantia de 7 dias e 15 dias de suporte. Solicite seu modelo no WhatsApp.",
       },
-      { name: "author", content: "Therezion" },
-      { property: "og:title", content: "Therezion — Sites profissionais em 3 a 7 dias" },
+      { name: "author", content: "Therezion (@therezion.sites)" },
+      { property: "og:title", content: "Therezion — Sites Profissionais com Máxima Credibilidade" },
       {
         property: "og:description",
         content:
-          "Sua empresa merece um site que transmite autoridade. Design personalizado, publicação inclusa.",
+          "Mais autoridade, zero burocracia. Entrega em 3 a 7 dias com garantia incondicional e acompanhamento próximo. Fale direto com quem desenvolve via WhatsApp.",
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Therezion" },
+      { property: "og:image", content: "/logo-tz.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Therezion — Sites profissionais" },
+      { name: "twitter:title", content: "Therezion — Sites de Alta Autoridade" },
       {
         name: "twitter:description",
-        content: "Sites profissionais entregues em 3 a 7 dias.",
+        content: "Sites profissionais entregues em 3 a 7 dias úteis. Sem burocracia, 100% focado em conversão.",
       },
+      { name: "twitter:image", content: "/logo-tz.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/logo-tz.png", type: "image/png" },
+      { rel: "shortcut icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap",
       },
     ],
     scripts: [
