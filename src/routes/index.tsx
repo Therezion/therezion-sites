@@ -417,13 +417,21 @@ function Benefits() {
 /* ---------------- Portfolio ---------------- */
 
 function Portfolio() {
-  const projects = [
+  const projects: Array<{
+    img: string;
+    title: string;
+    tag: string;
+    link?: string;
+    w: number;
+    h: number;
+  }> = [
     {
       img: portfolio1,
-      title: "Consultoria & Gestão Empresarial",
-      tag: "Site Institucional de Alta Autoridade",
-      w: 1200,
-      h: 900,
+      title: "Oliveira e Vasconcelos Advocacia",
+      tag: "Direito Trabalhista Especializado",
+      link: "https://www.behance.net/gallery/252787913/Oliveira-Vasconcelos-Advocacia",
+      w: 1450,
+      h: 1085,
     },
     {
       img: portfolio2,
@@ -454,41 +462,64 @@ function Portfolio() {
       dark
     >
       <div className="grid gap-8 md:grid-cols-3">
-        {projects.map((p, i) => (
-          <motion.figure
-            key={p.title}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={fadeUp}
-            transition={{ duration: 0.5, delay: i * 0.08 }}
-            className="group overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/50"
-          >
-            <div className="aspect-[4/3] overflow-hidden bg-white/5">
-              <img
-                src={p.img}
-                alt={p.title}
-                loading="lazy"
-                width={p.w}
-                height={p.h}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <figcaption className="flex items-center justify-between p-7">
-              <div>
-                <div className="font-display text-lg font-bold text-white">
-                  {p.title}
-                </div>
-                <div className="mt-1 text-xs font-medium uppercase tracking-widest text-primary">
-                  {p.tag}
-                </div>
+        {projects.map((p, i) => {
+          const content = (
+            <>
+              <div className="aspect-[4/3] overflow-hidden bg-white/5 relative">
+                <img
+                  src={p.img}
+                  alt={p.title}
+                  loading="lazy"
+                  width={p.w}
+                  height={p.h}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-white/70 transition-colors group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
-                <ArrowRight className="h-5 w-5" />
-              </span>
-            </figcaption>
-          </motion.figure>
-        ))}
+              <figcaption className="flex items-center justify-between p-7">
+                <div>
+                  <div className="font-display text-lg font-bold text-white group-hover:text-primary transition-colors">
+                    {p.title}
+                  </div>
+                  <div className="mt-1 text-xs font-medium uppercase tracking-widest text-primary/90">
+                    {p.tag}
+                  </div>
+                </div>
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-white/70 transition-colors group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
+                  <ArrowRight className="h-5 w-5" />
+                </span>
+              </figcaption>
+            </>
+          );
+
+          return p.link ? (
+            <motion.a
+              key={p.title}
+              href={p.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              variants={fadeUp}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="group block overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/50 cursor-pointer"
+            >
+              {content}
+            </motion.a>
+          ) : (
+            <motion.figure
+              key={p.title}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              variants={fadeUp}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="group overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/50"
+            >
+              {content}
+            </motion.figure>
+          );
+        })}
       </div>
       <div className="mt-14 flex flex-col items-center justify-center gap-4 text-center">
         <CTAButton>
