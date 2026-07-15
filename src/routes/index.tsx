@@ -417,11 +417,18 @@ function Benefits() {
 /* ---------------- Portfolio ---------------- */
 
 function Portfolio() {
+  const [activeEmbed, setActiveEmbed] = useState<{
+    title: string;
+    embedUrl: string;
+    link?: string;
+  } | null>(null);
+
   const projects: Array<{
     img: string;
     title: string;
     tag: string;
     link?: string;
+    embedUrl?: string;
     w: number;
     h: number;
   }> = [
@@ -430,6 +437,7 @@ function Portfolio() {
       title: "Oliveira e Vasconcelos Advocacia",
       tag: "Direito Trabalhista Especializado",
       link: "https://www.behance.net/gallery/252787913/Oliveira-Vasconcelos-Advocacia",
+      embedUrl: "https://www.behance.net/embed/project/252787913?ilo0=1",
       w: 1450,
       h: 1085,
     },
@@ -491,6 +499,29 @@ function Portfolio() {
             </>
           );
 
+          if (p.embedUrl) {
+            return (
+              <motion.div
+                key={p.title}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-60px" }}
+                variants={fadeUp}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                onClick={() =>
+                  setActiveEmbed({
+                    title: p.title,
+                    embedUrl: p.embedUrl!,
+                    link: p.link,
+                  })
+                }
+                className="group block overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/50 cursor-pointer"
+              >
+                {content}
+              </motion.div>
+            );
+          }
+
           return p.link ? (
             <motion.a
               key={p.title}
@@ -529,6 +560,57 @@ function Portfolio() {
           Apresentamos uma proposta personalizada pelo WhatsApp sem compromisso.
         </span>
       </div>
+
+      {activeEmbed && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md"
+          onClick={() => setActiveEmbed(null)}
+        >
+          <div
+            className="relative flex w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-white/15 bg-[var(--ink)] shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+              <h3 className="font-display text-lg font-bold text-white">
+                {activeEmbed.title}
+              </h3>
+              <button
+                type="button"
+                onClick={() => setActiveEmbed(null)}
+                className="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="aspect-[16/10] w-full bg-black/40 p-4 sm:p-6">
+              <iframe
+                src={activeEmbed.embedUrl}
+                height="100%"
+                width="100%"
+                className="h-full w-full rounded-2xl border-0"
+                allowFullScreen
+                loading="lazy"
+                allow="clipboard-write"
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
+            </div>
+            {activeEmbed.link && (
+              <div className="flex items-center justify-between border-t border-white/10 bg-white/5 px-6 py-4 text-xs text-white/70 sm:text-sm">
+                <span>Visualizando projeto interativo no Behance</span>
+                <a
+                  href={activeEmbed.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 font-semibold text-primary-foreground transition-all hover:brightness-110"
+                >
+                  Ver projeto no Behance
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </Section>
   );
 }
