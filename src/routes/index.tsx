@@ -183,11 +183,11 @@ function Header() {
     <header className="absolute inset-x-0 top-0 z-30 border-b border-white/10 bg-[var(--ink)]/80 backdrop-blur-md">
       <div className="container-page flex h-20 items-center justify-between gap-4">
         <a href="#top" className="flex items-center gap-3.5 transition-opacity hover:opacity-90">
-          <div className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-[#08070d] shadow-md">
+          <div className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-[#0c0b11] shadow-md">
             <img
               src={logoTz}
               alt="Therezion Logo"
-              className="h-full w-full object-cover object-center scale-[1.25] transition-transform duration-300 hover:scale-[1.3]"
+              className="h-full w-full object-cover object-center scale-[1.15] transition-transform duration-300 hover:scale-[1.2]"
             />
           </div>
           <span className="font-display text-xl font-bold tracking-tight text-white">
@@ -948,11 +948,11 @@ function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1.2fr]">
           <div>
             <div className="flex items-center gap-3.5">
-              <div className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-[#08070d] shadow-md">
+              <div className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-[#0c0b11] shadow-md">
                 <img
                   src={logoTz}
                   alt="Therezion Logo"
-                  className="h-full w-full object-cover object-center scale-[1.25]"
+                  className="h-full w-full object-cover object-center scale-[1.15]"
                 />
               </div>
               <span className="font-display text-xl font-bold tracking-tight text-white">
