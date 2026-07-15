@@ -187,7 +187,7 @@ function Header() {
             <img
               src={logoTz}
               alt="Therezion Logo"
-              className="h-full w-full object-cover object-center scale-[1.15] transition-transform duration-300 hover:scale-[1.2]"
+              className="h-full w-full object-cover object-center scale-100 transition-transform duration-300 hover:scale-[1.06]"
             />
           </div>
           <span className="font-display text-xl font-bold tracking-tight text-white">
@@ -952,7 +952,7 @@ function Footer() {
                 <img
                   src={logoTz}
                   alt="Therezion Logo"
-                  className="h-full w-full object-cover object-center scale-[1.15]"
+                  className="h-full w-full object-cover object-center scale-100"
                 />
               </div>
               <span className="font-display text-xl font-bold tracking-tight text-white">
