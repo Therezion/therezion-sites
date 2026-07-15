@@ -450,10 +450,12 @@ function Portfolio() {
     },
     {
       img: portfolio3,
-      title: "Estúdio de Arquitetura & Design",
-      tag: "Portfólio Interativo Minimalista",
-      w: 1200,
-      h: 900,
+      title: "Silva & Associados",
+      tag: "Orientação Jurídica Especializada",
+      link: "https://www.behance.net/gallery/252790431/Silva-Associados",
+      embedUrl: "https://www.behance.net/embed/project/252790431?ilo0=1",
+      w: 1450,
+      h: 1085,
     },
   ];
 
