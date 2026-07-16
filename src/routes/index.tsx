@@ -753,7 +753,49 @@ function Comparison() {
       }
       intro="A mesma qualidade estética e técnica de grandes agências, mas com agilidade, transparência e investimento inteligente."
     >
-      <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-card)]">
+      {/* ---------------- Mobile Card Stack (Responsive View for Phones & Small Screens) ---------------- */}
+      <div className="block md:hidden space-y-4">
+        {rows.map((row) => (
+          <div
+            key={row[0]}
+            className="rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:shadow-md"
+          >
+            <div className="mb-3.5 flex items-center justify-between border-b border-border/60 pb-3">
+              <h3 className="font-display text-base font-bold text-foreground">{row[0]}</h3>
+              <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-primary">
+                Comparativo
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              {/* Therezion Row */}
+              <div className="flex items-start gap-3 rounded-xl border border-primary/20 bg-primary/[0.06] p-3.5">
+                <Check className="mt-0.5 h-5 w-5 shrink-0 text-primary" strokeWidth={2.8} />
+                <div>
+                  <span className="mb-0.5 block font-display text-xs font-bold uppercase tracking-wider text-primary">
+                    Therezion
+                  </span>
+                  <span className="text-sm font-semibold text-foreground">{row[1]}</span>
+                </div>
+              </div>
+
+              {/* Agência Tradicional Row */}
+              <div className="flex items-start gap-3 rounded-xl border border-border/70 bg-muted/30 p-3.5">
+                <X className="mt-0.5 h-5 w-5 shrink-0 text-destructive/80" strokeWidth={2.4} />
+                <div>
+                  <span className="mb-0.5 block font-display text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Agência Tradicional
+                  </span>
+                  <span className="text-sm text-muted-foreground">{row[2]}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ---------------- Desktop & Tablet Grid View ---------------- */}
+      <div className="hidden md:block overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-card)]">
         <div className="grid grid-cols-[1.2fr_1fr_1fr] border-b border-border bg-[var(--surface)] text-sm font-semibold">
           <div className="p-6 text-muted-foreground">O que comparar</div>
           <div className="flex items-center gap-2.5 border-l border-border bg-primary/5 p-6 text-foreground">
